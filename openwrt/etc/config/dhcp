@@ -113,4 +113,3 @@ config host
 	option ip '192.168.31.24'
 	option mac '14:3C:C3:4A:F2:F9'
 	option leasetime 'infinite'
-
