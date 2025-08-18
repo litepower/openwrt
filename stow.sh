@@ -9,5 +9,5 @@ rm -rf /etc/config/dhcp
 ln -sf /root/openwrt/openwrt/etc/config/dhcp /etc/config/dhcp
 
 # nftables 配置目录
-
+rm -rf /etc/nftables.d/11-sing-box.nft
 ln -sf /root/openwrt/openwrt/etc/nftables.d/11-sing-box.nft /etc/nftables.d/11-sing-box.nft
