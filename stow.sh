@@ -11,7 +11,7 @@ ln -sf /root/openwrt/openwrt/etc/config/dhcp /etc/config/dhcp
 rm -rf /etc/config/rpcd
 ln -sf /root/openwrt/openwrt/etc/config/rpcd /etc/config/rpcd
 rm -rf /usr/share/rpcd/acl.d/homepage.json
-ls -sf /root/openwrt/openwrt//usr/share/rpcd/acl.d/homepage.json /usr/share/rpcd/acl.d/homepage.json
+ln -sf /root/openwrt/openwrt//usr/share/rpcd/acl.d/homepage.json /usr/share/rpcd/acl.d/homepage.json
 
 # nftables 配置目录
 rm -rf /etc/nftables.d/11-sing-box.nft
