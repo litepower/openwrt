@@ -1,6 +1,6 @@
 #!/usr/sbin/nft -f
 
-chain prerouting_sing-box {
+chain prerouting_sing_box {
     meta mark 0x29a accept comment "Bypass sing-box marked traffic"
     udp dport { 67, 68 } accept comment "Allow DHCP traffic"
     ip6 nexthdr icmpv6 accept comment "Allow ICMPv6"  
@@ -12,7 +12,7 @@ chain prerouting_sing-box {
     meta l4proto { tcp, udp } tproxy to :7893 meta mark set 0x1 comment "TProxy traffic and mark"
 }
 
-chain output_sing-box {
+chain output_sing_box {
     meta oifname "lo" accept comment "Allow loopback output"
     ip6 nexthdr icmpv6 accept comment "Allow ICMPv6"
     meta mark 0x29a accept comment "Bypass sing-box marked traffic"

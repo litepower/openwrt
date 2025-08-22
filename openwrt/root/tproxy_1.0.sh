@@ -27,8 +27,8 @@ cleanup_tproxy_route() {
 }
 # 插入 sing-box jump 规则
 insert_singbox_jump_rule() {
-	nft insert rule inet fw4 mangle_prerouting jump prerouting_sing-box
-	nft insert rule inet fw4 mangle_output jump output_sing-box
+	nft insert rule inet fw4 mangle_prerouting jump prerouting_sing_box
+	nft insert rule inet fw4 mangle_output jump output_sing_box
 }
 # 删除 sing-box jump 规则
 delete_singbox_jump_rule() {
