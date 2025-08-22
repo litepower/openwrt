@@ -11,6 +11,7 @@ rm -rf /etc/config/rpcd
 ln -sf /root/openwrt/openwrt/etc/config/rpcd /etc/config/rpcd
 rm -rf /usr/share/rpcd/acl.d/homepage.json
 ln -sf /root/openwrt/openwrt//usr/share/rpcd/acl.d/homepage.json /usr/share/rpcd/acl.d/homepage.json
+rm -rf /etc/init.d/tproxy
 ln -sf /root/openwrt/openwrt/etc/init.d/tproxy /etc/init.d/tproxy
 
 # nftables 配置目录
