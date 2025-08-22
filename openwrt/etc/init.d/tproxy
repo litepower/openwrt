@@ -1,0 +1,69 @@
+#!/bin/sh /etc/rc.common
+START=99
+STOP=10
+USE_PROCD=0
+
+check_requirements() {
+	if ! opkg list-installed | grep -q kmod-nft-tproxy; then
+		echo "[singbox-tproxy] 未检测到 kmod-nft-tproxy，正在尝试安装..."
+		opkg update && opkg install kmod-nft-tproxy || {
+			echo "[singbox-tproxy] 安装失败，请手动检查！"
+			return 1
+		}
+	fi
+	return 0
+}
+
+setup_tproxy_route() {
+	# IPv4
+	ip route add local default dev lo table 100 2>/dev/null
+	ip rule add fwmark 0x1 table 100 2>/dev/null
+
+	# IPv6
+	ip -6 route add local default dev lo table 100 2>/dev/null
+	ip -6 rule add fwmark 0x1 table 100 2>/dev/null
+
+	echo "[singbox-tproxy] TPROXY 策略路由已启用"
+}
+
+cleanup_tproxy_route() {
+	ip route flush table 100 2>/dev/null
+	ip rule del fwmark 0x1 lookup 100 2>/dev/null
+	ip -6 route flush table 100 2>/dev/null
+	ip -6 rule del fwmark 0x1 lookup 100 2>/dev/null
+	echo "[singbox-tproxy] TPROXY 策略路由已清理"
+}
+
+insert_singbox_jump_rule() {
+	nft insert rule inet fw4 mangle_prerouting jump prerouting_sing_box 2>/dev/null
+	nft insert rule inet fw4 mangle_output jump output_sing_box 2>/dev/null
+	echo "[singbox-tproxy] sing-box jump 规则已插入"
+}
+
+delete_singbox_jump_rule() {
+	# 删除 prerouting jump
+	h=$(nft --handle list chain inet fw4 mangle_prerouting | awk '/jump prerouting_sing_box/ {print $(NF)}')
+	[ -n "$h" ] && nft delete rule inet fw4 mangle_prerouting handle "$h" 2>/dev/null
+
+	# 删除 output jump
+	h=$(nft --handle list chain inet fw4 mangle_output | awk '/jump output_sing_box/ {print $(NF)}')
+	[ -n "$h" ] && nft delete rule inet fw4 mangle_output handle "$h" 2>/dev/null
+
+	echo "[singbox-tproxy] sing-box jump 规则已删除"
+}
+
+start() {
+	check_requirements || return 1
+	setup_tproxy_route
+	insert_singbox_jump_rule
+}
+
+stop() {
+	delete_singbox_jump_rule
+	cleanup_tproxy_route
+}
+
+restart() {
+	stop
+	start
+}
