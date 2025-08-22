@@ -1,5 +1,3 @@
-#!/usr/sbin/nft -f
-
 chain prerouting_sing_box {
     meta mark 0x29a accept comment "Bypass sing-box marked traffic"
     udp dport { 67, 68 } accept comment "Allow DHCP traffic"
