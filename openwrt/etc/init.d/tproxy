@@ -3,17 +3,6 @@ START=99
 STOP=10
 USE_PROCD=0
 
-check_requirements() {
-	if ! opkg list-installed | grep -q kmod-nft-tproxy; then
-		echo "[singbox-tproxy] 未检测到 kmod-nft-tproxy，正在尝试安装..."
-		opkg update && opkg install kmod-nft-tproxy || {
-			echo "[singbox-tproxy] 安装失败，请手动检查！"
-			return 1
-		}
-	fi
-	return 0
-}
-
 setup_tproxy_route() {
 	# IPv4
 	ip route add local default dev lo table 100 2>/dev/null
@@ -53,7 +42,6 @@ delete_singbox_jump_rule() {
 }
 
 start() {
-	check_requirements || return 1
 	setup_tproxy_route
 	insert_singbox_jump_rule
 }
