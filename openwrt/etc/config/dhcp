@@ -54,7 +54,7 @@ config host
 	option leasetime 'infinite'
 
 config host
-	option ip '192.168.31.254'
+	option ip '192.168.31.15'
 	option mac '00:23:24:67:DF:14'
 	option leasetime 'infinite'
 
