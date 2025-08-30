@@ -9,6 +9,8 @@ ln -sf /root/openwrt/openwrt/root/ddns-go /root/ddns-go
 # 配置文件链接到 /etc
 rm -rf /etc/config/dhcp
 ln -sf /root/openwrt/openwrt/etc/config/dhcp /etc/config/dhcp
+rm -rf /etc/config/sing-box
+ln -sf /root/openwrt/openwrt/etc/config/sing-box /etc/config/sing-box
 rm -rf /etc/config/rpcd
 ln -sf /root/openwrt/openwrt/etc/config/rpcd /etc/config/rpcd
 rm -rf /usr/share/rpcd/acl.d/homepage.json
